@@ -25,14 +25,14 @@ export class Pipelines extends Component {
     _initPager(props) {
         const org = props.params.organization;
         if (org) {
-            this.augmenter = this.context.pipelineService.organiztionPipelinesPager(org);
+            this.pager = this.context.pipelineService.organiztionPipelinesPager(org);
         } else {
-            this.augmenter = this.context.pipelineService.allPipelinesPager();
+            this.pager = this.context.pipelineService.allPipelinesPager();
         }
     }
 
     render() {
-        const pipelines = this.augmenter.data;
+        const pipelines = this.pager.data;
         const { organization, location = { } } = this.context.params;
 
         const orgLink = organization ?
