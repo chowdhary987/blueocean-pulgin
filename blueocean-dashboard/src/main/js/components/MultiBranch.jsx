@@ -17,7 +17,7 @@ export class MultiBranch extends Component {
     componentWillMount() {
         if (this.props.pipeline && this.context.params && capable(this.props.pipeline, MULTIBRANCH_PIPELINE)) {
             const { organization, pipeline } = this.context.params;
-            this.pager = this.context.pipelineService.branchPager(organization, pipeline);
+            this.augmenter = this.context.pipelineService.branchPager(organization, pipeline);
         }
     }
 
@@ -35,9 +35,9 @@ export class MultiBranch extends Component {
             return (<UnsupportedPlaceholder {...childProps} />);
         }
 
-        const branches = this.pager.data;
+        const branches = this.augmenter.data;
 
-        if (!this.pager.pending && !branches.length) {
+        if (!this.augmenter.pending && !branches.length) {
             return <NoBranchesPlaceholder t={t} />;
         }
 

@@ -17,7 +17,7 @@ const { object, string, func } = PropTypes;
 export class PullRequests extends Component {
     componentWillMount() {
         if (this.props.pipeline && this.props.params && capable(this.props.pipeline, MULTIBRANCH_PIPELINE)) {
-            this.pager = this.context.pipelineService.prPager(this.props.params.organization, this.props.params.pipeline);
+            this.augmenter = this.context.pipelineService.prPager(this.props.params.organization, this.props.params.pipeline);
         }
     }
 
@@ -35,13 +35,13 @@ export class PullRequests extends Component {
 
             return (<UnsupportedPlaceholder {...childProps} />);
         }
-        const pullRequests = this.pager.data;
+        const pullRequests = this.augmenter.data;
 
-        if (this.pager.pending) {
+        if (this.augmenter.pending) {
             return null;
         }
 
-        if (!this.pager.pending && !this.pager.data.length) {
+        if (!this.augmenter.pending && !this.augmenter.data.length) {
             return <NoPullRequestsPlaceholder t={t} />;
         }
 
