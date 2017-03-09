@@ -16,6 +16,8 @@ export default {
             // Look up where the Blue Ocean app is hosted
             config.blueoceanAppURL = headElement.getAttribute('data-appurl');
 
+            // load server skewTime
+            config.serverBrowserTimeSkewMillis = headElement.getAttribute('data-servertime') - Date.now();
             if (typeof config.blueoceanAppURL !== 'string') {
                 config.blueoceanAppURL = '/';
             }
@@ -25,6 +27,7 @@ export default {
         } catch (e) {
             // headless escape
             config.jenkinsRootURL = '/jenkins';
+            config.serverBrowserTimeSkewMillis = 0;
         }
     },
 
@@ -81,6 +84,14 @@ export default {
         }
         return config.jenkinsRootURL || '/jenkins';
     },
+
+    getServerBrowserTimeSkewMillis() {
+        if (!config.isLoaded) {
+            this.loadUrls();
+        }
+        return (typeof config.serverBrowserTimeSkewMillis === 'number' ? config.serverBrowserTimeSkewMillis : 0);
+    },
+
 
     getRestRoot() {
         return `${this.getJenkinsRootURL()}/blue/rest`;
